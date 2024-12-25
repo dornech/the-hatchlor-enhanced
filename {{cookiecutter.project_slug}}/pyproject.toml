@@ -315,6 +315,9 @@ ban-relative-imports = "all"
 # Tests can use magic values, assertions, and relative imports
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 
+[tool.cruft]
+skip = ["README.md", "CHANGELOG.MD", "src/", "tests/", "docs/", "notebooks/"]
+
 
 #####################
 # Environment Setup #
