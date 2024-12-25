@@ -36,7 +36,6 @@ classifiers = [ # ToDo: Modify according to your needs!
 ]
 # direct dependencies of this package, installed when users `pip install {{ cookiecutter.project_slug }}` later.
 dependencies = [ # ToDo: Modify according to your needs!
-    "setuptools_scm",
     # "typer",
     # "numpy",
     # "matplotlib",
@@ -331,17 +330,27 @@ requires = ["hatch-pip-compile~=1.11.2"]
 # Hatch default environment with production dependencies
 [tool.hatch.envs.default]
 python = "{{ cookiecutter.target_python_version }}"
-post-install-commands = ["pre-commit install,"pre-commit install --hook-type commit-msg""]
+{%- if cookiecutter.gitlint_commitmsg_linter %}
+post-install-commands = ["pre-commit install", "pre-commit install --hook-type commit-msg"]
+{%- else %}
+post-install-commands = ["pre-commit install"]
+{%- endif %}
 {%- if cookiecutter.lock_file_support %}
 type = "pip-compile"
 pip-compile-constraint = "default"  # keep locks between default & others consistent
 lock-filename = "locks/{env_name}.lock"
 pip-compile-hashes = false  # no hashes in lock files
 {%- endif %}
+{%- if cookiecutter.gitlint_commitmsg_linter %}
 dependencies = [
     "pre-commit",
     "gitlint"
 ]
+{%- else %}
+dependencies = [
+    "pre-commit",
+]
+{%- endif %}
 {%- if cookiecutter.lock_file_support %}
 [tool.hatch.envs.default.scripts]
 upgrade-all = "PIP_COMPILE_UPGRADE=1 hatch env run --env {env_name} -- python --version"
