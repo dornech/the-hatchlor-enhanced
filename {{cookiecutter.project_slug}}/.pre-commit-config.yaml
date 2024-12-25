@@ -27,8 +27,6 @@ repos:
     - id: ruff-format
       args: [--check, --config, ./pyproject.toml]
 
-{% if cookiecutter.gitlint_commitmsg_linter %}
-# gitlint for commit message linting
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: 'v1.13.0'  # make sure this is always consistent with hatch configs
   hooks:
@@ -36,9 +34,11 @@ repos:
       args: ["--install-types", "--non-interactive"]
       additional_dependencies: [types-tabulate, types-cachetools]
 
--   repo: https://github.com/jorisroovers/gitlint
-    rev:  'v0.19.1'
-    hooks:
-    -   id: gitlint    # this is the regular commit-msg hook
-    -   id: gitlint-ci # hook for CI environments
+{% if cookiecutter.gitlint_commitmsg_linter %}
+# gitlint for commit message linting
+- repo: https://github.com/jorisroovers/gitlint
+  rev:  'v0.19.1'
+  hooks:
+    - id: gitlint    # this is the regular commit-msg hook
+    - id: gitlint-ci # hook for CI environments
 {% endif %}
