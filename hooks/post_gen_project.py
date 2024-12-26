@@ -1,7 +1,8 @@
 import subprocess
 import os
 
-if not '{{ cookiecutter.gitlint_commitmsg_linter }}':
+
+if not {{cookiecutter.gitlint_commitmsg_linter}}:
     if os.path.exists(".gitlint"):
         os.remove(".gitlint")
 
