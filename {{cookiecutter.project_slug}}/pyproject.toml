@@ -69,13 +69,16 @@ allow-direct-references = true
 
 [tool.hatch.version]
 source = "vcs"
-raw-options = { version_scheme = "no-guess-dev" }
 
-[tool.hatch.build.hooks.vcs]
-version-file = "src/{{ cookiecutter.pkg_name }}/_version.py"
+[tool.hatch.version.raw-options]
+version_scheme = "no-guess-dev"
+local_scheme = "dirty-tag"
 
 [tool.hatch.build]
 packages = ["src/{{ cookiecutter.pkg_name }}"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/{{ cookiecutter.pkg_name }}/_version.py"
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["_version.py"]
@@ -84,7 +87,7 @@ exclude = [
 ]
 
 [tool.bumpversion]
-current_version = "0.1.5"
+current_version = "0.0.1"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"
