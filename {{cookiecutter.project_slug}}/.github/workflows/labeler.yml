@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Dump context "GitHub"
         env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+          GITHUB_CONTEXT: {% raw %}${{ toJson(github) }}{% endraw %}
         run: echo "$GITHUB_CONTEXT"
 
   labeler:
@@ -30,4 +30,4 @@ jobs:
         uses: crazy-max/ghaction-github-labeler@v5.3.0
         with:
           skip-delete: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: {% raw %}${{ secrets.GITHUB_TOKEN }}{% endraw %}
