@@ -193,6 +193,8 @@ pretty = true
 show_column_numbers = true
 warn_no_return = false
 warn_unused_ignores = true
+warn_return_any = true
+warn_unused_configs = true
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -273,7 +275,6 @@ select = [
     "UP",
     "W",
     "YTT",
-    "RUF100", # Automatically remove unused # noqa directives
 ]
 ignore = [
     # Allow non-abstract empty methods in abstract base classes
@@ -286,27 +287,25 @@ ignore = [
     "C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915",
     "PLC1901", # empty string comparisons
     "PLW2901", # `for` loop variable overwritten
-    "SIM114", # Combine `if` branches using logical `or` operator
-    "E203", # Whitespace before :, needed for black compatability and also `ruff format`
-    "ISC001", # causes unexpected behaviour with formatter
-    "I001", # enforce reorganisation of imports
-    "T201",  # print statements
-    "Q000"   # double quotes found but single quotes preferred
+    "SIM114",  # Combine `if` branches using logical `or` operator
+    "E203",    # Whitespace before :, needed for black compatability and also `ruff format`
+    "ISC001",  # causes unexpected behaviour with formatter
+    "I001",    # enforce reorganisation of imports
+    "T201",    # print statements
+    "Q000",    # double quotes found but single quotes preferred
+    "RUF100", # Automatically remove unused # noqa directives
 ]
 unfixable = [
     # "F401",  # Don't touch unused imports
 ]
 exclude = ["__init__.py", "_version.py"]
 
-[tool.ruff.format]
-quote-style = "single" # be more like black
-exclude = ["__init__.py", "_version.py"]
-
 [tool.ruff.lint.isort]
 known-first-party = ["{{ cookiecutter.pkg_name }}"]
 
 [tool.ruff.lint.flake8-quotes]
-inline-quotes = "single"
+# inline-quotes = "single"
+inline-quotes = "double"
 
 [tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
@@ -316,6 +315,13 @@ ban-relative-imports = "all"
 "examples/*" = ["T201"]
 # Tests can use magic values, assertions, and relative imports
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
+
+[tool.ruff.format]
+preview = true # Enable preview style formatting.
+# quote-style = "single"
+quote-style = "double"
+docstring-code-format = true
+exclude = ["__init__.py", "_version.py"]
 
 [tool.cruft]
 skip = ["README.md", "CHANGELOG.MD", "src/", "tests/", "docs/", "notebooks/"]
