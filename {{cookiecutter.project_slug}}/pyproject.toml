@@ -24,7 +24,7 @@ authors = [
     { name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}" },
 ]
 # options under https://pypi.org/classifiers/
-classifiers = [ # ToDo: Modify according to your needs!
+classifiers = [  # ToDo: Modify according to your needs!
     "Development Status :: 2 - Pre-Alpha",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.9",
@@ -35,7 +35,7 @@ classifiers = [ # ToDo: Modify according to your needs!
     "Programming Language :: Python :: Implementation :: CPython",
 ]
 # direct dependencies of this package, installed when users `pip install {{ cookiecutter.project_slug }}` later.
-dependencies = [ # ToDo: Modify according to your needs!
+dependencies = [  # ToDo: Modify according to your needs!
     # "typer",
     # "numpy",
     # "matplotlib",
@@ -365,7 +365,7 @@ dependencies = [
 upgrade-all = "PIP_COMPILE_UPGRADE=1 hatch env run --env {env_name} -- python --version"
 upgrade-pkg = "PIP_COMPILE_UPGRADE_PACKAGE='{args}' hatch env run --env {env_name} -- python --version"
 {%- endif %}
-# installer = pip
+# installer = "pip"
 
 # Hatch default test environment for "hatch test" (also used in GitAction)
 [tool.hatch.envs.hatch-test]

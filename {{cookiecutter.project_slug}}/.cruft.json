@@ -1,0 +1,25 @@
+{
+  "template": "https://github.com/dornech/the-hatchlor-enhanced",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "{{ cookiecutter.full_name }}",
+      "email": "{{ cookiecutter.email }}",
+      "project_name": "{{ cookiecutter.project_name }}",
+      "project_slug": "{{ cookiecutter.project_slug }}",
+      "pkg_name": "{{ cookiecutter.pkg_name }}",
+      "project_short_description": "{{ cookiecutter.project_short_description }}",
+      "open_source_license": "{{ cookiecutter.open_source_license }}",
+      "target_python_version": "{{ cookiecutter.target_python_version }}",
+      "github_username": "{{ cookiecutter.github_username }}",
+      "project_repo": "{{ cookiecutter.project_repo }}",
+      "pypi_username": "{{ cookiecutter.pypi_username }}",
+      "lock_file_support": {{ cookiecutter.lock_file_support }},
+      "_template": "https://github.com/dornech/the-hatchlor-enhanced.git"
+    }
+  },
+  "directory": null,
+  "skip": [
+    ".git"
+  ]
+}

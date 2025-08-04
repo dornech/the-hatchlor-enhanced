@@ -10,6 +10,7 @@ repos:
       - id: debug-statements
       - id: check-ast
       - id: check-json
+        exclude: "{{cookiecutter.project_slug}}/.cruft.json"
       - id: check-xml
       - id: check-yaml
         args: [ '--unsafe' ]  # needed for !! tags in mkdocs.yml
