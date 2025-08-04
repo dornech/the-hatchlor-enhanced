@@ -53,7 +53,7 @@ fibonacci = "{{ cookiecutter.pkg_name }}.skeleton:app"
 [project.urls]
 # important URLs for this project
 # ToDo: Modify according to your needs!
-Documentation = "{{ cookiecutter.project_repo }}"
+Documentation = ""https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.project_slug }}"
 Source = "{{ cookiecutter.project_repo }}"
 Tracker = "{{ cookiecutter.project_repo }}/issues"
 Sponsor = "https://github.com/sponsors/{{ cookiecutter.github_username }}"
@@ -413,8 +413,8 @@ python = ["39", "310", "311", "312", "313"]
 [tool.hatch.envs.hatch-static-analysis]
 dependencies = [
     "pip",
-    "mypy==1.13.0",
-    "ruff==0.8.3"
+    "mypy==1.16.0",
+    "ruff==0.11.12"
 ]
 
 # Hatch Linting environment for GitAction
@@ -422,8 +422,8 @@ dependencies = [
 template = "lint"  # don't inherit from default!
 dependencies = [
     "pip",
-    "mypy==1.13.0",
-    "ruff==0.8.3"
+    "mypy==1.16.0",
+    "ruff==0.11.12"
 ]
 [tool.hatch.envs.lint.scripts]
 typing = [
