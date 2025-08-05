@@ -100,3 +100,7 @@ cookiecutter-pypackage-env/
 
 # IDE settings
 .vscode/
+idea/
+
+# MacOS files
+.DS_Store

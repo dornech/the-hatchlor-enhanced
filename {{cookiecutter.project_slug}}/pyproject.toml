@@ -16,7 +16,7 @@ requires-python = ">={{ cookiecutter.target_python_version }}"
 license = { file = "LICENSE.txt" }
 {%- else %}
 # only license identifier from https://spdx.org/licenses/ are allowed
-license = { text = "{{ cookiecutter.open_source_license }}"}
+license = { text = "{{ cookiecutter.open_source_license }}" }
 {%- endif %}
 # keywords for easier look-up on PyPI
 keywords = ["keyword_1", "keyword_2"] # ToDo: Modify according to your needs!
