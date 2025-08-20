@@ -77,8 +77,8 @@ local_scheme = "dirty-tag"
 [tool.hatch.build]
 packages = ["src/{{ cookiecutter.pkg_name }}"]
 
-[tool.hatch.build.hooks.vcs]
-version-file = "src/{{ cookiecutter.pkg_name }}/_version.py"
+# [tool.hatch.build.hooks.vcs]
+# version-file = "src/{{ cookiecutter.pkg_name }}/_version.py"
 
 [tool.hatch.build.targets.sdist]
 artifacts = ["_version.py"]
