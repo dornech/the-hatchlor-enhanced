@@ -1,3 +1,8 @@
+# pre-commit defaults
+default_stages: [ pre-commit, pre-merge-commit, pre-push, manual ]   # define default explicitly to avoid double execution for commit-msg hook for gitlint
+default_install_hook_types: [ pre-commit, commit-msg ]
+
+# pre-commit repos
 repos:
 
   # standard pre-commit hooks
@@ -8,15 +13,15 @@ repos:
       - id: check-added-large-files
       - id: check-merge-conflict
       - id: debug-statements
-        exclude: "{{cookiecutter.project_slug}}/src/{{cookiecutter.pkg_name}}/__init__.py"
+        exclude: \{\{cookiecutter\.project_slug\}\}/src/\{\{cookiecutter\.pkg_name\}\}/__init__\.py
       - id: check-ast
-        exclude: "{{cookiecutter.project_slug}}/src/{{cookiecutter.pkg_name}}/__init__.py"
+        exclude: \{\{cookiecutter\.project_slug\}\}/src/\{\{cookiecutter\.pkg_name\}\}/__init__\.py
       - id: check-json
-        exclude: "{{cookiecutter.project_slug}}/.cruft.json"
+        exclude: \{\{cookiecutter\.project_slug\}\}/\.cruft\.json
       - id: check-xml
       - id: check-yaml
         args: [ '--unsafe' ]  # needed for !! tags in mkdocs.yml
-        exclude: "{{cookiecutter.project_slug}}/.pre-commit-config.yaml"
+        exclude: \{\{cookiecutter\.project_slug\}\}/\.pre-commit-config.yaml|\{\{cookiecutter.project_slug\}\}/\.github/workflows/.*\.yml
       - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [ '--fix=auto' ]  # replace 'auto' with 'lf' to enforce Linux/Mac line endings or 'crlf' for Windows
@@ -27,4 +32,6 @@ repos:
     rev: 'v0.19.1'
     hooks:
       - id: gitlint    # this is the regular commit-msg hook
+        stages: [commit-msg]
       - id: gitlint-ci # hook for CI environments
+        stages: [manual]
