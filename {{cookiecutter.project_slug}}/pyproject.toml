@@ -177,61 +177,36 @@ insecure = false
 
 [tool.semantic_release.publish]
 dist_glob_patterns = ["dist/*"]
-upload_to_vcs_release = true
+upload_to_vcs_release = false
+
+[tool.commitizen]
+name = "cz_customize"
+version_scheme = "pep440"
+version = "0.0.1"
+# version_files = ["pyproject.toml:version", "src/_version.py"]
+version_files = ["pyproject.toml:version", "pyproject.toml:tool.bumpversion.current_version"]
+tag_format = "v$version"
+update_changelog_on_bump = true
+changelog_file = "CHANGELOG.md"
+template = "changelog_commitizen-template.md.j2"
+
+[tool.commitizen.customize]
+message_template = "{% if scope %} '{{change_type}}({{scope}}): {{message}}' {% else %} '{{change_type}}: {{message}}'"
+example = "'feat: add new endpoint'or 'feat(api): add new endpoint'"
+schema = "'<type>: <subject>' or '<type>(<scope>): <subject>'"
+schema_pattern = "(feat|fix|docs|style|refactor|perf|test|chore|build|deps|ci|revert)(\\([^)]+\\))?:\\s.*"
+bump_pattern = "^(feat|fix|BREAKING CHANGE)"
+bump_map = {"feat" = "MINOR", "fix" = "PATCH", "BREAKING CHANGE" = "MAJOR"}
+# user defined changelog format - standard MD + commit-sha and commit-url
+commit_parser = "^(?P<change_type>feat|fix|refactor|perf|docs|style|test|chore|build|ci|revert|BREAKING CHANGE)(\\((?P<scope>[^)]+)\\))?:\\s(?P<message>.*)"
+changelog_pattern = "^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert|BREAKING CHANGE).*"
+change_type_map = { feat = "Features", fix = "Bug fixes", refactor = "Refactoring", perf = "performance improvements", docs = "Documentation", style = "Code style", test = "Testing", chore = "Chores", build = "Build system", ci = "Continuous Integration" }
+change_type_order = ["BREAKING CHANGE", "feat", "fix", "refactor", "perf", "docs", "style", "test", "chore", "build", "ci"]
 
 
 ##################
 # External Tools #
 ##################
-
-[tool.mypy]
-files = ["src/{{ cookiecutter.pkg_name }}", "tests"]
-disallow_untyped_defs = false
-follow_imports = "normal" # "silent" for not following
-ignore_missing_imports = true
-pretty = true
-show_column_numbers = true
-warn_no_return = false
-warn_unused_ignores = true
-warn_return_any = true
-warn_unused_configs = true
-
-[tool.pytest.ini_options]
-minversion = "6.0"
-addopts = "-ra -q --doctest-glob='*.md'"
-testpaths = [
-    "tests",
-]
-
-[tool.coverage.run]
-branch = true
-source = ["src/{{ cookiecutter.pkg_name }}"]
-omit = [
-    "_version.py",  # automatically created by hatch-vcs, not in repo
-]
-
-[tool.coverage.paths]
-source = [
-    "src/",
-    "*/site-packages/",
-]
-
-[tool.coverage.report]
-# Regexes for lines to exclude from consideration
-exclude_lines = [
-    # Have to re-enable the standard pragma
-    "pragma: no cover",
-    # Don't complain about missing debug-only code:
-    "def __repr__",
-    "if self\\.debug",
-    # Don't complain if tests don't hit defensive assertion code:
-    "raise AssertionError",
-    "raise NotImplementedError",
-    # Don't complain if non-runnable code isn't run:
-    "if 0:",
-    "if __name__ == .__main__.:",
-    "if TYPE_CHECKING:",
-]
 
 [tool.ruff]
 # ruff will use `requires-python` as `target-version` by default
@@ -315,6 +290,8 @@ ban-relative-imports = "all"
 "examples/*" = ["T201"]
 # Tests can use magic values, assertions, and relative imports
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
+# ignore empty lines and naming conventions in source
+# "src/*.py" = ["E302", "E303", "N801", "N802", "N803", "N806", "N812", "N813", "N815", "N816", "N818", "N999"]
 
 [tool.ruff.format]
 preview = true # Enable preview style formatting.
@@ -323,8 +300,57 @@ quote-style = "double"
 docstring-code-format = true
 exclude = ["__init__.py", "_version.py"]
 
+[tool.mypy]
+files = ["src/{{ cookiecutter.pkg_name }}", "tests"]
+disallow_untyped_defs = false
+follow_imports = "normal" # "silent" for not following
+ignore_missing_imports = true
+pretty = true
+show_column_numbers = true
+warn_no_return = false
+warn_unused_ignores = true
+warn_return_any = true
+warn_unused_configs = true
+
 [tool.cruft]
 skip = ["README.md", "CHANGELOG.MD", "src/", "tests/", "docs/", "notebooks/"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --doctest-glob='*.md'"
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src/{{ cookiecutter.pkg_name }}"]
+omit = [
+    "_version.py",  # automatically created by hatch-vcs, not in repo
+]
+
+[tool.coverage.paths]
+source = [
+    "src/",
+    "*/site-packages/",
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
 
 
 #####################
