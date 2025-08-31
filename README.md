@@ -1,13 +1,13 @@
-# 🌹 The Hatchlor 🌹 Cookiecutter Template
+# 🌹 The Hatchlor Enhanced - based on The Hatchlor 🌹 Cookiecutter Template
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/FlorianWilhelm/the-hatchlor/master/images/logo.svg" alt="The Hatchlor logo" width="300" role="img">
 </div>
 
-|         |                                    |
-|---------|------------------------------------|
-| Details | [![Tests][Tests-image]][Tests-link] [![License - MIT][MIT-image]][MIT-link] [![GitHub Sponsors][sponsor-image]][sponsor-link] |
-| Features | [![Hatch project][hatch-image]][hatch-link] [![linting - Ruff][ruff-image]][ruff-link] [![types - mypy][mypy-image]][mypy-link] [![test - pytest][pytest-image]][pytest-link]  [![Pre-Commit][precommit-image]][precommit-link] [![docs - mkdocs][mkdocs-image]][mkdocs-link] |
+|         |                                                                                                                                                                                                                                                                                                                                                                                                            |
+|---------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Details | [![Tests][Tests-image]][Tests-link] [![License - MIT][MIT-image]][MIT-link] [![GitHub Sponsors][sponsor-image]][sponsor-link]                                                                                                                                                                                                                                                                              |
+| Features | [![Hatch project][hatch-image]][hatch-link] [![linting - Ruff][ruff-image]][ruff-link] [![types - mypy][mypy-image]][mypy-link] [![test - pytest][pytest-image]][pytest-link] [![Pre-Commit][precommit-image]][precommit-link] <br/>[![semantic-release][semantic-release-image]][semantic-release-link] [![commitizen][commitizen-image]][commitizen-link] [![docs - mkdocs][mkdocs-image]][mkdocs-link] |
 
 The Hatchlor is a [cookiecutter] template featuring the modern and extensible Python project manager [hatch] 🐣.
 
@@ -38,16 +38,28 @@ The Hatchlor integrates the following features:
 * [EditorConfig]: maintain consistent coding styles for multiple developers,
 * [src-layout]: the actual Python package is kept under a `src` folder avoiding many common errors.
 
-Please note additional integrations and following amendments:
+As The Hatchlor starts right off with [ruff], there are no legacy settings in pyproject.toml for less complete linting and formatting tools.
 
-* [semantic-release]: local prepare of a commit: create changelog and commit with a version tag
-* [bump-my-version] and [generate-changelog]: alternative to [semantic-release]
-* [gitlint]: include linting of commit messages
-* [GitHub Actions]: reworked workflows - dump context, add test publishing on TestPy, switch to new PyPi mechanism
+The Hatchlor Enhanced integrates additional features:
+
+* [hatch-vcs-footgun-example]: dynamic version determination for editable install,
+* [semantic-release]: local prepare of a commit: create changelog and commit with a version tag,
+* [bump-my-version] and [generate-changelog]: alternative to [semantic-release],
+* [commitizen]: commit-tool as new alternative to [semantic-release] and combination of [bump-my-version]
+and [generate-changelog] with default changelog format improved to aligned with [semantic-release],
+* [gitlint]: include linting of commit messages (alternative to commitizen),
+* cookiecutter options to switch bewteen [commitizen], [semantic-release] and combination of [bump-my-version] and [generate-changelog]
+* [GitHub Actions]: reworked workflows - dump context, add test publishing on TestPy, switch to new PyPi mechanism,
+* [cruft]: assistance for template updates.
+* [docsig]: check signatures (script for hatch environment, not yet as pre-commit hook)
+
+Regarding support for committing, version management and changelog generation commitizen is right now favorised as it
+fits most nicely with the current GitHub workflows. However, commitizen only works with GitHub so alternatives are
+provided.
 
 The amendments support a local development and commit process while "outsourcing" testing for different OS
-and with  different Python versions to GitHub.
-The local committing includes preparation of a changelog. It is based on semantic-versioning.
+and with different Python versions to GitHub.
+The local development includes local preparation of a changelog.
 Commit-messages are linted to enforce commit messages according to conventional commits format as
 basis for a proper and automatically generated changelog.
 
@@ -67,14 +79,14 @@ pip install -U cookiecutter
 Then generate your Python project with:
 
 ```console
-cookiecutter https://github.com/florianwilhelm/the-hatchlor.git
+cookiecutter https://github.com/dornech/the-hatchlor-enhanced.git
 ```
 
 🎉 That's  it! Now change into the created directory and check out [`README.md`] for more information.
 
 ## 🪪 License
 
-The Hatchlor is distributed under the terms of the [MIT license](LICENSE.txt).
+The Hatchlor and The Hatchlor Enhanced is distributed under the terms of the [MIT license](LICENSE.txt).
 
 ## 🙏 Credits
 
@@ -97,7 +109,7 @@ To start this project off a lot of inspiration was taken from [hatch], [cookiecu
 [coverage]: https://coverage.readthedocs.io/
 [mypy]: https://mypy-lang.org/
 [black]: https://black.readthedocs.io/
-[ruff]: https://beta.ruff.rs/
+[ruff]: https://docs.astral.sh/ruff
 [EditorConfig]: http://editorconfig.org/
 [Typer]: https://typer.tiangolo.com/
 [pyproject.toml]: https://hatch.pypa.io/latest/config/metadata/
@@ -111,6 +123,14 @@ To start this project off a lot of inspiration was taken from [hatch], [cookiecu
 [labeler]: https://github.com/marketplace/actions/github-labeler
 [dependabot]: https://docs.github.com/en/code-security/dependabot
 [release-drafter]: https://github.com/marketplace/actions/release-drafter
+[gitlint]: https://jorisroovers.com/gitlint/dev/commit_hooks/
+[bump-my-version]: https://github.com/callowayproject/bump-my-version/
+[generate-changelog]: https://github.com/callowayproject/generate-changelog/
+[semantic-release]: https://python-semantic-release.readthedocs.io/en/latest/
+[commitizen]: https://commitizen-tools.github.io/commitizen/
+[cruft]: https://cruft.github.io/cruft/
+[docsig]: https://docsig.readthedocs.io/
+[hatch-vcs-footgun-example]: https://github.com/maresb/hatch-vcs-footgun-example
 
 [Tests-image]: https://github.com/FlorianWilhelm/the-hatchlor/actions/workflows/run-tests.yml/badge.svg?branch=main
 [Tests-link]: https://github.com/FlorianWilhelm/the-hatchlor/actions/workflows/run-tests.yml
@@ -126,6 +146,10 @@ To start this project off a lot of inspiration was taken from [hatch], [cookiecu
 [mkdocs-link]: https://www.mkdocs.org/
 [precommit-image]: https://img.shields.io/static/v1?label=‎&message=pre-commit&logo=pre-commit&color=76877c
 [precommit-link]: https://pre-commit.com/
+[semantic-release-image]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+[semantic-release-link]: https://github.com/semantic-release/semantic-release/
+[commitizen-image]: https://img.shields.io/badge/commitizen-brightgreen.svg
+[commitizen-link]: https://github.com/commitizen-tools/commitizen/
 [MIT-image]: https://img.shields.io/badge/License-MIT-9400d3.svg
 [MIT-link]: LICENSE.txt
 [sponsor-image]: https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=ff69b4

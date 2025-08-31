@@ -1,17 +1,37 @@
 {
-  "full_name": "Florian Wilhelm",
+  "full_name": "your name",
   "email": "email@example.com",
+  "target_python_version": ["3.9", "3.10", "3.11", "3.12", "3.13"],
   "project_name": "Python hatch project",
   "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
   "pkg_name": "{{ cookiecutter.project_slug.replace('-', '_').replace('.', '_') }}",
   "project_short_description": "Python project featuring the modern and extensible Python project manager hatch.",
   "open_source_license": ["MIT", "BSD-3-Clause", "ISC", "Apache-2.0", "GPL-3.0-only", "proprietary"],
-  "target_python_version": ["3.9", "3.10", "3.11", "3.12", "3.13"],
   "github_username": "{{ cookiecutter.full_name.replace(' ', '')}}",
   "project_repo": "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}",
   "pypi_username": "{{ cookiecutter.github_username }}",
+  "tooling_environment": ["commitizen", "semantic-release", "bump-my-version_and_generate-changelog", "none"],
+  "__tooling_packages": {
+    "commitizen": ["commitizen"],
+    "semantic-release": ["semantic-release"],
+    "bump-my-version_and_generate-changelog": ["bump-my-version", "generate-changelog"],
+    "none": []
+  },
+  "commitmsg_linter": ["toolchain_default", "enforce_commitizen", "enforce_gitlint", "none"],
+  "__tooling_default_commitmsg_linter": {
+    "commitizen": "commitizen",
+    "semantic-release": "gitlint",
+    "bump-my-version_and_generate-changelog": "gitlint",
+    "none": "0"
+  },
+  "__tooling_commitmsg_linter": {
+    "toolchain_default": "{{ cookiecutter.__tooling_default_commitmsg_linter[cookiecutter.tooling_environment] }}",
+    "enforce_commitizen": "commitizen",
+    "enforce_gitlint": "gitlint",
+    "none": "0"
+  },
   "lock_file_support": false,
-  "gitlint_commitmsg_linter": true,
+  "initial_commit": false,
   "__prompts__": {
     "full_name": "Provide your [bold yellow]full name[/]",
     "email": "Provide your [bold yellow]email[/]",
@@ -19,12 +39,15 @@
     "project_name": "Provide the [bold yellow]human-readable project name[/]",
     "project_slug": "Provide the [bold yellow]project slug[/] (only ASCII letters/digits, underscores, hyphens, and periods)",
     "pkg_name": "Provide the [bold yellow]package name[/] (only ASCII letters/digits, and underscores)",
-    "project_repo": "Optionally, provide the [bold yellow]repository url[/]",
     "project_short_description": "Provide a [bold yellow]short project description[/]",
     "open_source_license": "Provide the [bold yellow]license[/] of this project",
+    "github_username": "Optionally, provide a [bold yellow]Github user name[/] (i. e. for funder)",
+    "project_repo": "Optionally, provide the [bold yellow]repository url[/]",
     "pypi_username": "Optionally, provide a [bold yellow]PyPI user name[/]",
-    "github_username": "Optionally, provide a [bold yellow]Github user name[/]",
+    "tooling_environment": "Select toolchain environment (versioning, changelog generation ...)",
+    "commitmsg_linter": "Select commit message linter",
     "lock_file_support": "Activate support for lock files?",
-    "gitlint_commitmsg_linter": "Include gitlint commit message linter?"
-  }
+    "initial_commit": "Create initial commit directly after generation?"
+  },
+  "_jinja2_env_vars_DISABLED": {"lstrip_blocks": true, "trim_blocks": true}
 }

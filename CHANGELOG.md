@@ -1,5 +1,18 @@
 # Changelog
 
+## version 1.0
+
+- Feat: add cruft for cookiecutter template update
+- Feat: add commitizen
+- Feat: add python-semeantic-release
+- Feat: add bump-my-version / generate-changelog
+- Feat: add gitlint commit-msg hook
+- Feat: switch between differnzt tooling environments (comnmitizen / python´- semantic-release / bumy-my-verison and generate-changelog)
+- Feat: add dosig to hatch environment
+- Fix: restructure pyproject.toml
+- Fix: add features to mkdocs - code blocks et al.
+- Fix: redesign GitHubActions
+
 ## Version 0.7
 
 - Fix: Linter commands in Github workflows

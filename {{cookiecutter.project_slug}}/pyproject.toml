@@ -85,6 +85,7 @@ artifacts = ["_version.py"]
 exclude = [
     "/.github",
 ]
+{%- if "bump-my-version" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}
 
 [tool.bumpversion]
 current_version = "0.0.1"
@@ -101,7 +102,9 @@ tag = true
 tag_name = "v{new_version}"
 tag_message = "Bump version: {current_version} → {new_version}"
 message = "Bump version: {current_version} → {new_version}"
+{%- if "generate-changelog" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}
 setup_hooks= ["generate-changelog"]
+{%- endif %}
 post_commit_hooks = ["hatch build"]
 
 [[tool.bumpversion.files]]
@@ -112,6 +115,8 @@ search = "Unreleased"
 filename = "CHANGELOG.md"
 search = "{current_version}...HEAD"
 replace = "{current_version}...{new_version}"
+{%- endif %}
+{%- if "semantic-release" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}
 
 [tool.semantic_release]
 assets = []
@@ -124,9 +129,11 @@ major_on_zero = true
 allow_zero_version = true
 no_git_verify = false
 tag_format = "v{version}"
-version_variable = []
-version_toml = ["pyproject.toml:tool.bumpversion.current_version"]
 version_pattern = []
+version_variable = []
+{%- if "bump-my-version" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}
+version_toml = ["pyproject.toml:tool.bumpversion.current_version"]
+{%- endif %}
 
 [tool.semantic_release.branches.main]
 match = "(main|master)"
@@ -178,35 +185,62 @@ insecure = false
 [tool.semantic_release.publish]
 dist_glob_patterns = ["dist/*"]
 upload_to_vcs_release = false
+{%- endif %}
+{%- if "commitizen" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] or cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "commitizen" %}
 
 [tool.commitizen]
 name = "cz_customize"
+{%- endif %}
+{%- if "commitizen" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}
 version_scheme = "pep440"
 version = "0.0.1"
-# version_files = ["pyproject.toml:version", "src/_version.py"]
-version_files = ["pyproject.toml:version", "pyproject.toml:tool.bumpversion.current_version"]
+version_files = ["pyproject.toml:version"{% if "bump-my-version" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}, "pyproject.toml:tool.bumpversion.current_version"{% endif %}]
 tag_format = "v$version"
 update_changelog_on_bump = true
 changelog_file = "CHANGELOG.md"
 template = "changelog_commitizen-template.md.j2"
+{%- endif %}
+{%- if "commitizen" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] or cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "commitizen" %}
 
 [tool.commitizen.customize]
-message_template = "{% if scope %} '{{change_type}}({{scope}}): {{message}}' {% else %} '{{change_type}}: {{message}}'"
+message_template = {% raw %}"{% if scope %} '{{ change_type }}({{ scope }}): { {message }}' {% else %} '{{ change_type }}: {{ message }}'"{% endraw %}
 example = "'feat: add new endpoint'or 'feat(api): add new endpoint'"
 schema = "'<type>: <subject>' or '<type>(<scope>): <subject>'"
 schema_pattern = "(feat|fix|docs|style|refactor|perf|test|chore|build|deps|ci|revert)(\\([^)]+\\))?:\\s.*"
+{%- endif %}
+{%- if "commitizen" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}
 bump_pattern = "^(feat|fix|BREAKING CHANGE)"
 bump_map = {"feat" = "MINOR", "fix" = "PATCH", "BREAKING CHANGE" = "MAJOR"}
-# user defined changelog format - standard MD + commit-sha and commit-url
-commit_parser = "^(?P<change_type>feat|fix|refactor|perf|docs|style|test|chore|build|ci|revert|BREAKING CHANGE)(\\((?P<scope>[^)]+)\\))?:\\s(?P<message>.*)"
-changelog_pattern = "^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert|BREAKING CHANGE).*"
+# user defined changelog format - standard semantic-release + commit-sha and commit-url
+# w/o Initial Commit in changelog
+# commit_parser = "^(?P<change_type>feat|fix|refactor|perf|docs|style|test|chore|build|ci|revert|BREAKING CHANGE)(\\((?P<scope>[^)]+)\\))?:\\s(?P<message>.*)"
+# changelog_pattern = "^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert|BREAKING CHANGE).*"
+# with Initial Commit in changelog
+commit_parser ="^(?P<change_type>[Ii]nitial [Cc]ommit|feat|fix|refactor|perf|docs|style|test|chore|build|ci|revert|BREAKING CHANGE)(\\((?P<scope>[^)]+)\\))?(:\\s(?P<message>.*))?"
+changelog_pattern = "^([Ii]nitial [Cc]ommit|feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert|BREAKING CHANGE).*"
 change_type_map = { feat = "Features", fix = "Bug fixes", refactor = "Refactoring", perf = "performance improvements", docs = "Documentation", style = "Code style", test = "Testing", chore = "Chores", build = "Build system", ci = "Continuous Integration" }
 change_type_order = ["BREAKING CHANGE", "feat", "fix", "refactor", "perf", "docs", "style", "test", "chore", "build", "ci"]
+{%- endif %}
 
 
 ##################
 # External Tools #
 ##################
+
+[tool.docsig]
+check-class = true
+check-class-constructor = true
+check-dunders = false
+check-nested = false
+check-overridden = true
+check-protected = false
+check-protected-class-methods = false
+ignore-args = false
+ignore-kwargs = false
+ignore-no-params = true
+ignore_typechecker= false
+# disable = []
+# target = []
 
 [tool.ruff]
 # ruff will use `requires-python` as `target-version` by default
@@ -288,6 +322,7 @@ ban-relative-imports = "all"
 [tool.ruff.lint.per-file-ignores]
 # Allow print/pprint
 "examples/*" = ["T201"]
+
 # Tests can use magic values, assertions, and relative imports
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 # ignore empty lines and naming conventions in source
@@ -303,7 +338,7 @@ exclude = ["__init__.py", "_version.py"]
 [tool.mypy]
 files = ["src/{{ cookiecutter.pkg_name }}", "tests"]
 disallow_untyped_defs = false
-follow_imports = "normal" # "silent" for not following
+follow_imports = "normal"  # "silent" for not following
 ignore_missing_imports = true
 pretty = true
 show_column_numbers = true
@@ -358,14 +393,15 @@ exclude_lines = [
 #####################
 {%- if cookiecutter.lock_file_support %}
 
+# Hatch lock file support dependency
 [tool.hatch.env]
 requires = ["hatch-pip-compile~=1.11.2"]
 {%- endif %}
 
-# Hatch default environment with production dependencies
+# Hatch default environment
 [tool.hatch.envs.default]
 python = "{{ cookiecutter.target_python_version }}"
-{%- if cookiecutter.gitlint_commitmsg_linter %}
+{%- if cookiecutter.__tooling_commitmsg_linter %}
 post-install-commands = ["pre-commit install", "pre-commit install --hook-type commit-msg"]
 {%- else %}
 post-install-commands = ["pre-commit install"]
@@ -376,22 +412,17 @@ pip-compile-constraint = "default"  # keep locks between default & others consis
 lock-filename = "locks/{env_name}.lock"
 pip-compile-hashes = false  # no hashes in lock files
 {%- endif %}
-{%- if cookiecutter.gitlint_commitmsg_linter %}
 dependencies = [
     "pre-commit",
-    "gitlint"
+    {% if cookiecutter.commitmsg_linter != "none" -%}"{{ cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] }}",{% endif %}
 ]
-{%- else %}
-dependencies = [
-    "pre-commit",
-]
-{%- endif %}
+# installer = "pip"
 {%- if cookiecutter.lock_file_support %}
+
 [tool.hatch.envs.default.scripts]
 upgrade-all = "PIP_COMPILE_UPGRADE=1 hatch env run --env {env_name} -- python --version"
 upgrade-pkg = "PIP_COMPILE_UPGRADE_PACKAGE='{args}' hatch env run --env {env_name} -- python --version"
 {%- endif %}
-# installer = "pip"
 
 # Hatch default test environment for "hatch test" (also used in GitAction)
 [tool.hatch.envs.hatch-test]
@@ -449,7 +480,8 @@ template = "lint"  # don't inherit from default!
 dependencies = [
     "pip",
     "mypy==1.16.0",
-    "ruff==0.11.12"
+    "ruff==0.11.12",
+    "docsig==0.71.0"
 ]
 [tool.hatch.envs.lint.scripts]
 typing = [
@@ -466,9 +498,13 @@ fix = [
     "ruff check --fix {args:.}",
     "style",  # feedback on what is not fixable
 ]
+docsig = [
+    "docsig"
+]
 all = [
     "style",
     "typing",
+    "docsig",
 ]
 
 # Hatch environment for building documentation

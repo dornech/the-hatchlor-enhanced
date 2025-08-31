@@ -1,5 +1,5 @@
 # pre-commit defaults
-default_stages: [ pre-commit, pre-merge-commit, pre-push, manual ]   # define default explicitly to avoid double execution for commit-msg hook for gitlint
+default_stages: [ pre-commit, pre-merge-commit, pre-push, manual ]   # define default explicitly to avoid double execution for commit-msg hook for commit-msg linter
 default_install_hook_types: [ pre-commit, commit-msg ]
 
 # pre-commit repos
@@ -35,3 +35,10 @@ repos:
         stages: [commit-msg]
       - id: gitlint-ci # hook for CI environments
         stages: [manual]
+
+  # commitizen - linter for git commit messages
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: 'v1.17.0'
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]

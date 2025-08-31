@@ -1,25 +1,26 @@
-{#  MACRO: Capitalize the first letter of a string only#}
-{%  macro capitalize_first_letter_only(sentence) %}
-{{    (sentence[0] | upper) ~ sentence[1:]}}
-{%  endmacro %}
+{%- raw %}{# MACRO: Capitalize the first letter of a string only #}
+{% macro capitalize_first_letter_only(sentence) %}
+{{    (sentence[0] | upper) ~ sentence[1:] }}
+{% endmacro %}{% endraw %}
 # CHANGELOG
 
-{% for entry in tree %}
+{% raw %}{% for entry in tree %}{% endraw %}
 
-## {{ entry.version }}{% if entry.date %} ({{ entry.date }}){% endif %}
+## [{% raw %}{{ entry.version }}]({% endraw %}{{ cookiecutter.project_repo }}{% raw %}/releases/tag/{{ entry.version }}) {% if entry.date %} ({{ entry.date }}) {% endif %}{% endraw %}
 
-{% for change_type, changes in entry.changes.items() %}
+{% raw %}{% for change_type, changes in entry.changes.items() %}{% endraw %}
 
-{% if change_type %}
-### {{ capitalize_first_letter_only(change_type) }}
-{% endif %}
-{% for change in changes %}
-{% if change.scope %}
-- **{{ change.scope }}**: {{ capitalize_first_letter_only(change.message) }} (['{{ change.sha1[:7] }}']({{ cookiecutter.project_repo }}/commit/{{change.sha1 }}))
-{% elif change.message %}
-- {{ capitalize_first_letter_only(change.message) }}(['{{ change.sha1[:7] }}']({{ cookiecutter.project_repo }}/commit/{{change.sha1 }}))
-
-{% endif %}
+{% raw %}{% if change_type %}{% endraw %}
+### {% raw %}{{ capitalize_first_letter_only(change_type) }}{% endraw %}
+{% raw %}{% endif %}{% endraw %}
+{% raw %}{% for change in changes %}{% endraw %}
+{% raw %}{% if change.scope %}{% endraw %}
+- {% raw %}**{{ change.scope }}**: {{ capitalize_first_letter_only(change.message) }} (['{{ change.sha1[:7] }}']({% endraw %}{{ cookiecutter.project_repo }}{% raw %}/commit/{{ change.sha1 }})){% endraw %}
+{% raw %}{% elif change.message %}{% endraw %}
+- {% raw %}{{ capitalize_first_letter_only(change.message) }}(['{{ change.sha1[:7] }}']({% endraw %}{{ cookiecutter.project_repo }}{% raw %}/commit/{{ change.sha1 }})){% endraw %}
+{% raw %}{% endif %}{% endraw %}
+{% raw %}
 {% endfor %}
 {% endfor %}
 {% endfor %}
+{% endraw %}
