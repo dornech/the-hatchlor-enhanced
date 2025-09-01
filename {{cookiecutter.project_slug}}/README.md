@@ -36,10 +36,17 @@ packages, type `hatch run test:upgrade-pkg pkg1,pkg2`.
 
 {% endif -%}
 
+To support versioning and changelog generation please refer to the toolchain selected during package
+generation (see also `pyproject.toml`). If not deselected, the toolchain inlcudes a [pre-commit] hook
+for linting commit messages to ensure commit messages are compliant with the conventional commit format and
+support an automated changelog generation.
+
 ## Credits
 
-This package was created with [The Hatchlor] project template.
+This package was created with [The Hatchlor Enhanced] project template. This template is based on [The Hatchlor]
+but was substantially improved.
 
+[The Hatchlor Enhanced]: https://github.com/dornech/the-hatchlor-enhanced
 [The Hatchlor]: https://github.com/florianwilhelm/the-hatchlor
 [pipx]: https://pypa.github.io/pipx/
 [hatch]: https://hatch.pypa.io/

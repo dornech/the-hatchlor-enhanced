@@ -42,20 +42,19 @@ As The Hatchlor starts right off with [ruff], there are no legacy settings in py
 
 The Hatchlor Enhanced integrates additional features:
 
+* [cruft]: assistance for template updates.
 * [hatch-vcs-footgun-example]: dynamic version determination for editable install,
+* [docsig]: check signatures (script for hatch environment, not yet as pre-commit hook).
 * [semantic-release]: local prepare of a commit: create changelog and commit with a version tag,
 * [bump-my-version] and [generate-changelog]: alternative to [semantic-release],
 * [commitizen]: commit-tool as new alternative to [semantic-release] and combination of [bump-my-version]
-and [generate-changelog] with default changelog format improved to aligned with [semantic-release],
+and [generate-changelog] with default changelog format improved to be aligned with [semantic-release] changelog format,
 * [gitlint]: include linting of commit messages (alternative to commitizen),
-* cookiecutter options to switch bewteen [commitizen], [semantic-release] and combination of [bump-my-version] and [generate-changelog]
-* [GitHub Actions]: reworked workflows - dump context, add test publishing on TestPy, switch to new PyPi mechanism,
-* [cruft]: assistance for template updates.
-* [docsig]: check signatures (script for hatch environment, not yet as pre-commit hook)
+* cookiecutter options to switch bewteen [commitizen], [semantic-release] and combination of [bump-my-version] and [generate-changelog] as the toolchain vor versioning and changelog generation,
+* [GitHub Actions]: reworked workflows - dump context, add test publishing on TestPy, switch to new PyPi mechanism.
 
 Regarding support for committing, version management and changelog generation commitizen is right now favorised as it
-fits most nicely with the current GitHub workflows. However, commitizen only works with GitHub so alternatives are
-provided.
+fits most nicely with the current GitHub workflows.
 
 The amendments support a local development and commit process while "outsourcing" testing for different OS
 and with different Python versions to GitHub.
@@ -86,11 +85,11 @@ cookiecutter https://github.com/dornech/the-hatchlor-enhanced.git
 
 ## 🪪 License
 
-The Hatchlor and The Hatchlor Enhanced is distributed under the terms of the [MIT license](LICENSE.txt).
+[The Hatchlor] and [The Hatchlor Enhanced] are distributed under the terms of the [MIT license](LICENSE.txt).
 
 ## 🙏 Credits
 
-To start this project off a lot of inspiration was taken from [hatch], [cookiecutter-pypackage] and [Pyscaffold].
+To start this project off a lot of inspiration was taken from [hatch], [cookiecutter-pypackage] and [PyScaffold].
 
 [cookiecutter]: https://cookiecutter.readthedocs.io/
 [tox]: https://tox.wiki/
