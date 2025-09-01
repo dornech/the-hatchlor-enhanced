@@ -37,7 +37,7 @@ packages, type `hatch run test:upgrade-pkg pkg1,pkg2`.
 {% endif -%}
 
 To support versioning and changelog generation please refer to the toolchain selected during package
-generation (see also `pyproject.toml`). If not deselected, the toolchain inlcudes a [pre-commit] hook
+generation (see also `pyproject.toml`). If not deselected, the toolchain includes a [pre-commit] hook
 for linting commit messages to ensure commit messages are compliant with the conventional commit format and
 support an automated changelog generation.
 
