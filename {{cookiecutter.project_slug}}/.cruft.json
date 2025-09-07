@@ -5,12 +5,12 @@
     "cookiecutter": {
       "full_name": "{{ cookiecutter.full_name }}",
       "email": "{{ cookiecutter.email }}",
-      "target_python_version": "{{ cookiecutter.target_python_version }}",
       "project_name": "{{ cookiecutter.project_name }}",
       "project_slug": "{{ cookiecutter.project_slug }}",
       "pkg_name": "{{ cookiecutter.pkg_name }}",
       "project_short_description": "{{ cookiecutter.project_short_description }}",
       "open_source_license": "{{ cookiecutter.open_source_license }}",
+      "target_python_version": "{{ cookiecutter.target_python_version }}",
       "github_username": "{{ cookiecutter.github_username }}",
       "project_repo": "{{ cookiecutter.project_repo }}",
       "pypi_username": "{{ cookiecutter.pypi_username }}",
@@ -18,8 +18,8 @@
       "__tooling_packages": "{{ cookiecutter.__tooling_packages }}",
       "commitmsg_linter": "{{ cookiecutter.commitmsg_linter }}",
       "__tooling_commitmsg_linter": "{{ cookiecutter.__tooling_commitmsg_linter }}",
-      "lock_file_support": "{{ cookiecutter.lock_file_support }}",
-      "initial_commit": "{{ cookiecutter.initial_commit }}",
+      "lock_file_support": {{ cookiecutter.lock_file_support }},
+      "initial_commit": {{ cookiecutter.initial_commit }},
       "_template": "https://github.com/dornech/the-hatchlor-enhanced.git"
     }
   },
