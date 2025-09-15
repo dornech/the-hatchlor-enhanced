@@ -46,7 +46,7 @@ repos:
 {% if cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "commitizen" -%}
   # commitizen - linter for git commit messages
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: 'v1.17.0'
+    rev: 'v4.9.1'
     hooks:
       - id: commitizen
         stages: [commit-msg]
