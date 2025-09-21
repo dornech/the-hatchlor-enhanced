@@ -1,8 +1,12 @@
+{%- raw %}{% if not incremental %}
+# CHANGELOG
+
+
+{% endif %}{% endraw %}
 {%- raw %}{# MACRO: Capitalize the first letter of a string only #}
 {% macro capitalize_first_letter_only(sentence) %}
 {{    (sentence[0] | upper) ~ sentence[1:] }}
 {% endmacro %}{% endraw %}
-# CHANGELOG
 
 {% raw %}{% for entry in tree %}{% endraw %}
 
@@ -19,6 +23,7 @@
 {% raw %}{% elif change.message %}{% endraw %}
 - {% raw %}{{ capitalize_first_letter_only(change.message) }}(['{{ change.sha1[:7] }}']({% endraw %}{{ cookiecutter.project_repo }}{% raw %}/commit/{{ change.sha1 }})){% endraw %}
 {% raw %}{% endif %}{% endraw %}
+
 {% raw %}
 {% endfor %}
 {% endfor %}

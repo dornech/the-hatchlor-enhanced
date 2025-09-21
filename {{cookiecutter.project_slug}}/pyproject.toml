@@ -200,17 +200,23 @@ version_scheme = "pep440"
 version = "0.0.1"
 version_files = ["pyproject.toml:version"{% if "bump-my-version" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}, "pyproject.toml:tool.bumpversion.current_version"{% endif %}]
 tag_format = "v$version"
+# retry_after_failure = false
 update_changelog_on_bump = true
 changelog_file = "CHANGELOG.md"
 template = "changelog_commitizen-template.md.j2"
+post_bump_hooks = [
+    "echo %CZ_POST_CURRENT_TAG_VERSION% pushed to remote GitHub repository",
+    "git push origin HEAD",
+    "git push origin %CZ_POST_CURRENT_TAG_VERSION%",
+]
 {%- endif %}
 {%- if "commitizen" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] or cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "commitizen" %}
 
 [tool.commitizen.customize]
-message_template = {% raw %}"{% if scope %} '{{ change_type }}({{ scope }}): { {message }}' {% else %} '{{ change_type }}: {{ message }}'"{% endraw %}
+message_template = {% raw %}"{% if scope %} '{{ change_type }}({{ scope }}): {{ message }}' {% else %} '{{ change_type }}: {{ message }}'"{% endraw %}
 example = "'feat: add new endpoint'or 'feat(api): add new endpoint'"
 schema = "'<type>: <subject>' or '<type>(<scope>): <subject>'"
-schema_pattern = "(feat|fix|docs|style|refactor|perf|test|chore|build|deps|ci|revert)(\\([^)]+\\))?:\\s.*"
+schema_pattern = "(bump|feat|fix|docs|style|refactor|perf|test|chore|build|deps|ci|revert)(\\([^)]+\\))?:\\s.*"
 {%- endif %}
 {%- if "commitizen" in cookiecutter.__tooling_packages[cookiecutter.tooling_environment] %}
 bump_pattern = "^(feat|fix|BREAKING CHANGE)"
@@ -314,7 +320,7 @@ unfixable = [
 exclude = ["__init__.py", "_version.py"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["{{ cookiecutter.pkg_name }}"]
+known-first-party = ["pytestdornech"]
 
 [tool.ruff.lint.flake8-quotes]
 # inline-quotes = "single"
