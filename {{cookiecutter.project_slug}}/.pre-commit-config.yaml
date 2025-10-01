@@ -44,8 +44,8 @@ repos:
       - id: mypy
         args: [ "--install-types", "--non-interactive", "--config-file=pyproject.toml" ]
         additional_dependencies: [ types-tabulate, types-cachetools ]
+{%- if cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "commitizen" %}
 
-{% if cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "commitizen" -%}
   # commitizen - linter for git commit messages
   - repo: https://github.com/commitizen-tools/commitizen
     rev: 'v4.9.1'
@@ -53,7 +53,8 @@ repos:
       - id: commitizen
         stages: [commit-msg]
 {%- endif %}
-{%- if cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "gitlint" -%}
+{%- if cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] == "gitlint" %}
+
   # gitlint - linter for git commit messages
   - repo: https://github.com/jorisroovers/gitlint
     rev: 'v0.19.1'

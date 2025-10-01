@@ -238,7 +238,7 @@ change_type_order = ["BREAKING CHANGE", "feat", "fix", "refactor", "perf", "docs
 ##################
 
 [tool.docsig]
-check-class = true
+check-class = false
 check-class-constructor = true
 check-dunders = false
 check-nested = false
@@ -320,7 +320,7 @@ unfixable = [
 exclude = ["__init__.py", "_version.py"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["pytestdornech"]
+known-first-party = ["{{ cookiecutter.pkg_name }}"]
 
 [tool.ruff.lint.flake8-quotes]
 # inline-quotes = "single"
@@ -409,7 +409,7 @@ requires = ["hatch-pip-compile~=1.11.2"]
 
 # Hatch default environment
 [tool.hatch.envs.default]
-python = "{{ cookiecutter.target_python_version }}"
+# python = "{{ cookiecutter.target_python_version }}"
 {%- if cookiecutter.__tooling_commitmsg_linter %}
 post-install-commands = ["pre-commit install", "pre-commit install --hook-type commit-msg"]
 {%- else %}
@@ -473,7 +473,7 @@ debug =  "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
 # Hatch testing environment matrix for various Python versions replacing the functionality of tox
 [[tool.hatch.envs.test.matrix]]
 template = ["test"]
-python = ["39", "310", "311", "312", "313"]
+python = ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
 # Hatch default linting environment for "hatch fmt"
 [tool.hatch.envs.hatch-static-analysis]
@@ -507,13 +507,10 @@ fix = [
     "ruff check --fix {args:.}",
     "style",  # feedback on what is not fixable
 ]
-docsig = [
-    "docsig",
-]
 all = [
     "style",
     "typing",
-    "docsig",
+    "docsig src",
 ]
 
 # Hatch environment for building documentation

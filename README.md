@@ -52,6 +52,7 @@ and [generate-changelog] with default changelog format improved to be aligned wi
 * [gitlint]: include linting of commit messages (alternative to commitizen),
 * cookiecutter options to switch bewteen [commitizen], [semantic-release] and combination of [bump-my-version] and [generate-changelog] as the toolchain vor versioning and changelog generation,
 * [GitHub Actions]: reworked workflows - dump context, add test publishing on TestPy, switch to new PyPi mechanism.
+* selection of target platfom and target platform specific GitHub actions.
 
 Regarding support for committing, version management and changelog generation commitizen is right now favorised as it
 fits most nicely with the current GitHub workflows.

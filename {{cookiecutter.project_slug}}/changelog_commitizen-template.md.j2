@@ -1,14 +1,13 @@
 {%- raw %}{% if not incremental %}
 # CHANGELOG
-
-
 {% endif %}{% endraw %}
-{%- raw %}{# MACRO: Capitalize the first letter of a string only #}
+{% raw %}{# Macro: Capitalize the first letter of a string only #}
 {% macro capitalize_first_letter_only(sentence) %}
 {{    (sentence[0] | upper) ~ sentence[1:] }}
 {% endmacro %}{% endraw %}
 
 {% raw %}{% for entry in tree %}{% endraw %}
+
 
 ## [{% raw %}{{ entry.version }}]({% endraw %}{{ cookiecutter.project_repo }}{% raw %}/releases/tag/{{ entry.version }}) {% if entry.date %} ({{ entry.date }}) {% endif %}{% endraw %}
 
@@ -23,9 +22,8 @@
 {% raw %}{% elif change.message %}{% endraw %}
 - {% raw %}{{ capitalize_first_letter_only(change.message) }}(['{{ change.sha1[:7] }}']({% endraw %}{{ cookiecutter.project_repo }}{% raw %}/commit/{{ change.sha1 }})){% endraw %}
 {% raw %}{% endif %}{% endraw %}
-
-{% raw %}
+{% raw -%}
 {% endfor %}
 {% endfor %}
 {% endfor %}
-{% endraw %}
+{% endraw -%}
