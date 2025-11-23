@@ -7,6 +7,10 @@ default_context:
     project_short_description: "Python project featuring the Python project manager hatch powerd by The Hatchlor Enhanced."
     open_source_license: "MIT"
     target_python_version: "3.10"
+    target_os_platform: "ubuntu-latest, macos-latest, windows-latest"
     project_repo: "https://github.com/dornech/the-hatchlor-enhanced-demo"
     pypi_username: "{{ cookiecutter.github_username }}"
+    tooling_environment: "commitizen"
+    commitmsg_linter: "commitizen"
     lock_file_support: false
+    initial_commit: false
