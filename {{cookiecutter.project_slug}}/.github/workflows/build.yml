@@ -44,7 +44,7 @@ jobs:
       - name: Run Tests with coverage analysis
         run: |
           hatch test --cover
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         with:
           token: {% raw %}${{ secrets.CODECOV_TOKEN }}{% endraw %}
           fail_ci_if_error: true
@@ -134,7 +134,7 @@ jobs:
           name: python-package-distributions
           path: dist/
       - name: Sign the Python 🐍 distribution 📦 with Sigstore
-        uses: sigstore/gh-action-sigstore-python@v3.1.0
+        uses: sigstore/gh-action-sigstore-python@v3.3.0
         with:
           inputs: >-
             ./dist/*.tar.gz
