@@ -1,0 +1,141 @@
+name: Check Cairo for windows-latest using msys2
+on:
+  workflow_dispatch:
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  dump-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump context "GitHub"
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  test-cairo:
+    runs-on: windows-latest
+    steps:
+      - name: Install Cairo via MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          path-type: inherit
+          update: true
+          install: mingw-w64-x86_64-cairo
+      - name: Dump MSYS2 infos and verify package installation via MSYS2 shell
+        shell: msys2 {0}
+        run: |
+          echo "MSYSTEM=$MSYSTEM"
+          echo "PATH=$PATH"
+          echo
+          echo "Cairo package information and verification"
+          pacman -Qi mingw-w64-x86_64-cairo || true
+          echo
+          echo "List Cairo files installed by pacman"
+          pacman -Ql mingw-w64-x86_64-cairo | grep -i cairo || true
+          echo
+      - name: Find Cairo DLLs via MYSYS2 shell /1.
+        shell: msys2 {0}
+        run: |
+          echo Find Cairo DLLs via MYSYS2 shell using ls
+          echo
+          echo "MINGW64 prefix:"
+          ls /mingw64/bin | grep -i cairo || true
+          echo
+          echo "UCRT64 prefix:"
+          ls /ucrt64/bin | grep -i cairo || true
+          echo
+      - name: Find Cairo DLLs via MYSYS2 shell /2.
+        shell: msys2 {0}
+        run: |
+          echo Find Cairo DLLs via MYSYS2 shell using find
+          echo
+          find /mingw64 /ucrt64 -name "*cairo*.dll" || true
+          echo
+      - name: Verify Cairo exists
+        shell: msys2 {0}
+        run: |
+          echo "Verify libcairo-2.dll in MSYS environment"
+          test -f /${MSYSTEM,,}/bin/libcairo-2.dll && echo "FOUND MSYSTEM-environment $MSYSTEM" || true
+          test -f /mingw64/bin/libcairo-2.dll && echo "FOUND mingw64" || true
+          test -f /ucrt64/bin/libcairo-2.dll && echo "FOUND ucrt64" || true
+      - name: Reveal actual Windows path from MSYS2
+        shell: msys2 {0}
+        run: |
+          echo "MSYS root:"
+          cygpath -w /
+          echo "Reveal Windows path via cygpath:"
+          cygpath -w /${MSYSTEM,,}/bin/libcairo-2.dll || true
+          cygpath -w /mingw64/bin/libcairo-2.dll || true
+          cygpath -w /ucrt64/bin/libcairo-2.dll || true
+          echo
+      - name: Export actual MSYS path info
+        shell: msys2 {0}
+        run: |
+          echo "MSYS_ROOT=$(cygpath -w /)" >> $GITHUB_ENV
+          echo "MSYS_BIN=$(cygpath -w /${MSYSTEM,,}/bin)" >> $GITHUB_ENV || true
+          echo "CAIRO_DLL=$(cygpath -w /${MSYSTEM,,}/bin/libcairo-2.dll)" >> $GITHUB_ENV || true
+          echo "CAIRO_DLL_MINGW64=$(cygpath -w /mingw64/bin/libcairo-2.dll)" >> $GITHUB_ENV || true
+          echo "CAIRO_DLL_UCRT64=$(cygpath -w /ucrt64/bin/libcairo-2.dll)" >> $GITHUB_ENV || true
+          echo "CAIROCFFI_DLL_DIRECTORIES=$(cygpath -w /${MSYSTEM,,}/bin)" >> $GITHUB_ENV || true
+          echo "$(cygpath -w /${MSYSTEM,,}/bin)" >> $GITHUB_PATH
+          # only for current bash step:
+          export PATH="$(cygpath -w /${MSYSTEM,,}/bin):$PATH"
+      # - name: Find Cairo installation directory according to ChatGPT
+      #   shell: powershell
+      #   run: |
+      #     Write-Host ""
+      #     Write-Host "Verify MSYS installation directory (mingw64 or ucrt64) ..."
+      #     Get-ChildItem C:\ -Directory
+      # - name: set PATH for PowerShell
+      #   shell: powershell
+      #   run: |
+      #     # echo "C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      #     # echo "CAIROCFFI_DLL_DIRECTORIES=C:\msys64\mingw64\bin" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      #     echo $MSYS_BIN | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      #     echo "CAIROCFFI_DLL_DIRECTORIES=$MSYS_BIN" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      #     # Add-Content -Path $env:GITHUB_ENV -Value "CAIROCFFI_DLL_DIRECTORIES=$env:$MSYS_BIN"
+      - name: Check Cairo via PowerShell (only in msys64 path)
+        shell: powershell
+        run: |
+          Write-Host ""
+          Write-Host "Path info inherited from  MSYS ..."
+          Write-Host "MSYS_BIN=$env:MSYS_BIN"
+          Write-Host "CAIRO_DLL=$env:CAIRO_DLL"
+          Write-Host "CAIRO_DLL_MINGW64=$env:CAIRO_DLL_MINGW64"
+          Write-Host "CAIRO_DLL_UCRT64=$env:CAIRO_DLL_UCRT64"
+          Write-Host "CAIROCFFI_DLL_DIRECTORIES=$env:CAIROCFFI_DLL_DIRECTORIES"
+          Write-Host ""
+          # Write-Host "Searching full MSYS2 tree for Cairo DLLs ..."
+          # Get-ChildItem -Path "C:\msys64" -Filter "*cairo*.dll" -File -Recurse -ErrorAction SilentlyContinue |
+          #   ForEach-Object { Write-Host $_.FullName }
+          # Write-Host "Searching $env:CAIRO_DLL tree for Cairo DLLs ..."
+          Get-ChildItem $env:CAIRO_DLL -ErrorAction SilentlyContinue |
+            ForEach-Object { Write-Host $_.FullName }
+          # Write-Host "Searching $env:CAIRO_DLL_MINGW tree for Cairo DLLs ..."
+          Get-ChildItem $env:CAIRO_DLL_MINGW64 -ErrorAction SilentlyContinue |
+            ForEach-Object { Write-Host $_.FullName }
+          # Write-Host "Searching $env:CAIRO_DLL_UCRT64 tree for Cairo DLLs ..."
+          Get-ChildItem $env:CAIRO_DLL_UCRT64 -ErrorAction SilentlyContinue |
+            ForEach-Object { Write-Host $_.FullName }
+          Write-Host ""
+          # Write-Host "where.exe for libcairo-2.dll ..."
+          ä where.exe libcairo-2.dll
+          Write-Host ""
+          Write-Host "Test-Path for libcairo-2.dll ..."
+          # $paths = @(
+          #   "C:\msys64\mingw64\bin\libcairo-2.dll",
+          #   "C:\msys64\ucrt64\bin\libcairo-2.dll"
+          # )
+          # foreach ($p in $paths) {
+          #   Write-Host "$p => $(Test-Path $p)"
+          # }
+          Test-Path $env:CAIRO_DLL
+          Test-Path $env:CAIRO_DLL_MINGW64
+          Test-Path $env:CAIRO_DLL_UCRT64
+          exit 0

@@ -1,0 +1,41 @@
+name: Check Cairo for windows-latest using choco for GTK
+
+on:
+  workflow_dispatch:
+
+# Default to bash
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  dump-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump context "GitHub"
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  test-cairo:
+    runs-on: windows-latest
+    steps:
+      - name: Install Cairo via GTK
+        shell: powershell
+        run:
+          choco install gtk-runtime -y
+      - name: check Cairo
+        shell: powershell
+        run: |
+          # Get-ChildItem -Path "C:\Program Files" -Filter "*cairo*.d*" -File -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+          # echo "dll1=$($dll.FullName)" >> $env:GITHUB_OUTPUT
+          # Get-ChildItem -Path "C:\Program Files (86)" -Filter "*cairo*.d*" -File -Recurse -ErrorAction SilentlyContinue | Select-Object FullName
+          # echo "dll2=$($dll.FullName)" >> $env:GITHUB_OUTPUT
+          $paths = @("C:\Program Files", "C:\Program Files (x86)")
+          foreach ($p in $paths) {
+            if (Test-Path $p) {
+              Get-ChildItem -Path $p -Filter "*cairo*.d*" -Recurse -ErrorAction SilentlyContinue |
+              ForEach-Object { Write-Host $_.FullName }
+            }
+          }
