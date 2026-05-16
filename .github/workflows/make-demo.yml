@@ -26,7 +26,7 @@ jobs:
         path: ./hatchlor-enhanced-template
 
     - name: Setup Python environment
-      uses: mamba-org/setup-micromamba@v1
+      uses: mamba-org/setup-micromamba@v3
       with:
         micromamba-version: 'latest'
         environment-file: ./hatchlor-enhanced-template/.github/test_environment.yml

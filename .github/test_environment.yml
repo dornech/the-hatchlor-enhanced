@@ -1,11 +1,12 @@
-# Only used for our Github CI/CD workflow, completely unrelated to hatch or the hatchlor.
+# Only used for our GitHub CI/CD workflow, completely unrelated to hatch or the hatchlor.
 
 name: test-env
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
+  - python=3.11
   - cookiecutter
   - hatch
+  - commitizen
   - pre-commit
   - typer
