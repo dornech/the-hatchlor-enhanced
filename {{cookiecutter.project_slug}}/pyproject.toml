@@ -409,7 +409,6 @@ requires = ["hatch-pip-compile~=1.11.2"]
 
 # Hatch default environment
 [tool.hatch.envs.default]
-# python = "{{ cookiecutter.target_python_version }}"
 {%- if cookiecutter.__tooling_commitmsg_linter %}
 post-install-commands = ["pre-commit install", "pre-commit install --hook-type commit-msg"]
 {%- else %}
@@ -423,6 +422,7 @@ pip-compile-hashes = false  # no hashes in lock files
 {%- endif %}
 dependencies = [
     "pre-commit",
+    "pre_commit",
     {% if cookiecutter.commitmsg_linter != "none" -%}"{{ cookiecutter.__tooling_commitmsg_linter[cookiecutter.commitmsg_linter] }}",{% endif %}
 ]
 # installer = "pip"
@@ -468,7 +468,7 @@ dependencies = [
 [tool.hatch.envs.test.scripts]
 cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/{{ cookiecutter.pkg_name }} --cov=tests {args}"
 no-cov = "cov --no-cov {args}"
-debug =  "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
+debug = "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
 
 # Hatch testing environment matrix for various Python versions replacing the functionality of tox
 [[tool.hatch.envs.test.matrix]]
@@ -516,8 +516,10 @@ all = [
 # Hatch environment for building documentation
 [tool.hatch.envs.docs]
 dependencies = [
-    "mkdocs~=1.6",
-    "mkdocs-material[imaging]~=9.4",
+    "pre-commit",   # needed otherwise error
+    "pre_commit",   # needed otherwise error
+    "properdocs",
+    "mkdocs-materialx[imaging]",
     # Plugins
     "mkdocs-include-markdown-plugin",
     "mkdocs-gen-files",
@@ -539,10 +541,10 @@ dependencies = [
 [tool.hatch.envs.docs.env-vars]
 SOURCE_DATE_EPOCH = "1580601600"
 PYTHONUNBUFFERED = "1"
-MKDOCS_CONFIG = "mkdocs.yml"
+MKDOCS_CONFIG = "properdocs.yml"
 [tool.hatch.envs.docs.scripts]
-build = "mkdocs build --config-file {env:MKDOCS_CONFIG} --clean --strict {args}"
-serve = "mkdocs serve --config-file {env:MKDOCS_CONFIG} --dev-addr localhost:8000 {args}"
+build = "properdocs build --config-file {env:MKDOCS_CONFIG} --clean --strict {args}"
+serve = "properdocs serve --config-file {env:MKDOCS_CONFIG} --dev-addr localhost:8000 {args}"
 ci-build = "mike deploy --config-file {env:MKDOCS_CONFIG} --update-aliases {args}"
 # --ignore-url=None since the SUMMARY.md file leaves a <toc>None</toc> in sitemap.xml
 validate = "linkchecker --config .linkcheckerrc --ignore-url=/reference --ignore-url=None site"

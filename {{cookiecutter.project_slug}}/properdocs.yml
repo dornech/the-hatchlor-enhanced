@@ -1,13 +1,13 @@
 # Project information
-site_name: {{ cookiecutter.project_name }}
-site_description: {{ cookiecutter.project_short_description }}
-site_author: {{ cookiecutter.full_name }}
-site_url: {{ cookiecutter.project_repo }}
-copyright: 'Copyright &copy; {{ cookiecutter.full_name }} {% now 'local', '%Y' %}-present'
+site_name: "{{ cookiecutter.project_name }}"
+site_description: "{{ cookiecutter.project_short_description }}"
+site_author: "{{ cookiecutter.full_name }}"
+site_url: "{{ cookiecutter.project_repo }}"
+copyright: "Copyright &copy; {{ cookiecutter.full_name }} {% now 'local', '%Y' %}-present"
 
 # Repository
-repo_name: {{ cookiecutter.project_slug }}
-repo_url: {{ cookiecutter.project_repo }}
+repo_name: "{{ cookiecutter.project_slug }}"
+repo_url: "{{ cookiecutter.project_repo }}"
 edit_uri: blob/master/docs
 
 # Navigation
@@ -19,13 +19,13 @@ nav:
     - Authors: authors.md
     - Contributing: contributing.md
   # defer to gen-files + literate-nav
-  - Reference: reference/{{ cookiecutter.pkg_name }}/
+  - Reference: "reference/{{ cookiecutter.pkg_name }}/"
 
 # Configuration
 docs_dir: docs
 site_dir: site
 theme:
-  name: material
+  name: materialx
   language: en
   favicon: assets/images/favicon.svg
   icon:
@@ -138,11 +138,9 @@ markdown_extensions:
       social_url_shortener: true
       social_url_shorthand: true
       normalize_issue_symbols: true
-      {% set parts = cookiecutter.project_repo.split('/') -%}
-      {% set domain_parts = parts[-3].split('.') if parts|length > 2 else [] -%}
-      provider: {{ domain_parts[-2] if domain_parts|length > 2 else 'github' }}
-      user: {{ parts[-2] if parts|length > 2 else cookiecutter.github_username }}
-      repo: {{ parts[-1] if parts|length > 2 else cookiecutter.project_slug }}
+      provider: "{{ cookiecutter.project_repo.split('/')[-3].split('.')[-2] if cookiecutter.project_repo.split('/')|length > 2 else 'github' }}"
+      user: "{{ cookiecutter.project_repo.split('/')[-2] if cookiecutter.project_repo.split('/')|length > 2 else cookiecutter.github_username }}"
+      repo: "{{ cookiecutter.project_repo.split('/')[-1] if cookiecutter.project_repo.split('/')|length > 2 else cookiecutter.project_slug }}"
   - pymdownx.mark:
   - pymdownx.progressbar:
   - pymdownx.saneheaders:
