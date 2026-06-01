@@ -4,7 +4,7 @@ name: test-env
 channels:
   - conda-forge
 dependencies:
-  - python=3.11
+  - python=3.10
   - cookiecutter
   - hatch
   - commitizen
