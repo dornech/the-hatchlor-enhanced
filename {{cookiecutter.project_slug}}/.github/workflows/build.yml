@@ -44,7 +44,7 @@ jobs:
       - name: Run Tests with coverage analysis
         run: |
           hatch test --cover
-      - uses: codecov/codecov-action@v6
+      - uses: codecov/codecov-action@v7
         with:
           token: {% raw %}${{ secrets.CODECOV_TOKEN }}{% endraw %}
           fail_ci_if_error: true
