@@ -429,14 +429,8 @@ dependencies = [
 {%- if cookiecutter.lock_file_support %}
 
 [tool.hatch.envs.default.scripts]
-upgrade-all = [
-    "set PIP_COMPILE_UPGRADE=1",
-    "hatch env run --env {env_name} -- python --version"
-]
-upgrade-pkg = [
-    "set PIP_COMPILE_UPGRADE_PACKAGE='{args}'",
-    "hatch env run --env {env_name} -- python --version"
-]
+upgrade-all = "hatch-pip-compile --upgrade --all"
+upgrade-pkg = "hatch-pip-compile --upgrade-package {args}"
 {%- endif %}
 
 # Hatch default test environment for "hatch test" (also used in GitAction)
