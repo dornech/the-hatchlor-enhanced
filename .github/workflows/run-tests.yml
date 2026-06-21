@@ -4,7 +4,7 @@ name: Run tests
 
 on:
   push:
-  workflow-dispatch:
+  workflow_dispatch:
 
 jobs:
   run-tests:
