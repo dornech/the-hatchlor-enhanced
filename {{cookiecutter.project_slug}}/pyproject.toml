@@ -430,11 +430,11 @@ dependencies = [
 
 [tool.hatch.envs.default.scripts]
 upgrade-all = [
-    "set PIP_COMPILE_UPGRADE=1,
-    hatch env run --env {env_name} -- python --version"
+    "set PIP_COMPILE_UPGRADE=1",
+    "hatch env run --env {env_name} -- python --version"
 ]
 upgrade-pkg = [
-    "set PIP_COMPILE_UPGRADE_PACKAGE='{args}',
+    "set PIP_COMPILE_UPGRADE_PACKAGE='{args}'",
     "hatch env run --env {env_name} -- python --version"
 ]
 {%- endif %}
