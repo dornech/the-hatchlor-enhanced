@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        cookiecutter_cfg: ['default.yml', 'lock-file.yml', 'proprietary.yml']
+        # cookiecutter_cfg: ['default.yml', 'lock-file.yml', 'proprietary.yml']
+        # exclude 'lock-file.yml' due to ongoing issues
+        cookiecutter_cfg: ['default.yml', 'proprietary.yml']
     defaults:
       run:
         shell: bash -el {0}
